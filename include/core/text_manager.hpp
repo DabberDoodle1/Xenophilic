@@ -1,10 +1,28 @@
-#ifndef TEXT_MANAGER_HEADER
-#define TEXT_MANAGER_HEADER
+#pragma once
 
+#include "core/handles/texture.hpp"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <map>
 #include <string>
+
+enum Size {
+    LARGE = 0,
+    MEDIUM,
+    SMALL,
+    TINY
+};
+
+struct Text {
+    Text();
+    Text(unsigned int _ID, float _x, float _y, unsigned int _w, unsigned int _h);
+
+    Texture      ID;
+    float        x;
+    float        y;
+    unsigned int w;
+    unsigned int h;
+};
 
 class TextManager {
 public:
@@ -13,7 +31,7 @@ public:
 
     static void load_font(const char* key, const char* file_path);
     static void set_font(const char* key);
-    static unsigned int create_text(const char16_t* text, unsigned int& _width, unsigned int& _height);
+    static Text create_text(const char16_t* text, Size fs, unsigned int& dip);
 
 private:
     TextManager() = delete;
@@ -29,10 +47,9 @@ private:
         ~FontHandle();
 
         struct BitmapData {
-            BitmapData(unsigned char* _data, int _pitch,
+            BitmapData(unsigned char* _data, long _advance_x,
                        unsigned int _width, unsigned int _height,
-                       int _bearing_x, int _bearing_y,
-                       long _advance_x);
+                       int _bearing_x, int _bearing_y);
             ~BitmapData();
 
             unsigned char* data;
@@ -43,11 +60,11 @@ private:
             long           advance_x;
         };
 
-        void set_char(char16_t ch);
-        const BitmapData* get_char(char16_t ch) const;
+        void set_char(char16_t ch, Size font_size);
+        const BitmapData* get_char(char16_t ch, Size font_size);
 
     private:
-        std::map<char16_t, BitmapData> chars;
+        std::map<char16_t, BitmapData> chars[4];
         FT_Face                        face;
     };
 
@@ -55,5 +72,3 @@ private:
     static FontHandle*                       active_font;
     static FT_Library                        FT;
 };
-
-#endif

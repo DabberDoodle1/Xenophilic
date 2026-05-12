@@ -12,6 +12,6 @@ out vec2 v_color;
 
 void main()
 {
-    v_color = pos + 0.5f;
+    v_color     = pos + 0.5f;
     gl_Position = models.MVPs[index] * vec4(pos, 1.0f, 1.0f);
 }

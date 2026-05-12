@@ -1,5 +1,4 @@
-#ifndef STATUS_HANDLER_HEADER
-#define STATUS_HANDLER_HEADER
+#pragma once
 
 #include <string>
 
@@ -29,5 +28,3 @@ public:
 private:
     //static unsigned int alert_box_vao;
 };
-
-#endif

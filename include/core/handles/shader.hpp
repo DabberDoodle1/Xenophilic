@@ -1,5 +1,4 @@
-#ifndef SHADER_HEADER
-#define SHADER_HEADER
+#pragma once
 
 #include <fstream>
 #include <sstream>
@@ -30,5 +29,3 @@ private:
 
     friend class ResourceManager;
 };
-
-#endif

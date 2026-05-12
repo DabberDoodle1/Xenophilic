@@ -1,5 +1,4 @@
-#ifndef VIDEO_ENCODER_HEADER
-#define VIDEO_ENCODER_HEADER
+#pragma once
 
 extern "C" {
 #include <libavformat/avformat.h>
@@ -27,5 +26,3 @@ private:
     const int width;
     const int height;
 };
-
-#endif

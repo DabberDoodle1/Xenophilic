@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(around_the_world VERSION 1.0)
+project(far_away VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,11 +25,29 @@ add_custom_target(
 
 add_executable("${CMAKE_PROJECT_NAME}")
 
-add_subdirectory(dependencies/glad)
-add_subdirectory(dependencies/glfw)
-add_subdirectory(dependencies/glm)
-add_subdirectory(dependencies/stb_image)
-add_subdirectory(dependencies/freetype)
+include(FetchContent)
+
+FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+)
+
+FetchContent_Declare(
+    glad
+    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+)
+
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+)
+
+FetchContent_Declare(
+    freetype
+    GIT_REPOSITORY https://github.com/freetype/freetype.git
+)
+
+FetchContent_MakeAvailable(glfw glad glm freetype)
 
 option(RECORDING_MODE "Records frames for encoding" OFF)
 
@@ -62,7 +80,6 @@ set(
     "${CMAKE_SOURCE_DIR}/src/core/status_handler.cpp"
     "${CMAKE_SOURCE_DIR}/src/core/text_manager.cpp"
     "${CMAKE_SOURCE_DIR}/src/core/handles/shader.cpp"
-    "${CMAKE_SOURCE_DIR}/src/core/handles/entity.cpp"
     "${CMAKE_SOURCE_DIR}/src/core/handles/texture.cpp"
 )
 
@@ -77,5 +94,14 @@ set_property(
 )
 
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${SOURCES} ${EXTRA_SOURCES})
+
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC ${INCLUDE_DIRS} ${EXTRA_INCLUDE_DIRS})
-target_link_libraries("${CMAKE_PROJECT_NAME}" glad glfw glm stb_image freetype ${EXTRA_LIBRARIES})
+
+target_link_libraries(
+    "${CMAKE_PROJECT_NAME}"
+    glfw
+    glad
+    glm::glm
+    freetype
+    ${EXTRA_LIBRARIES}
+)
