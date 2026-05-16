@@ -2,6 +2,10 @@
 #include "core/status_handler.hpp"
 #include <glad/glad.h>
 
+Texture::Texture(): ID(0) {}
+
+Texture::Texture(unsigned int other_ID): ID(other_ID) {}
+
 Texture::Texture(unsigned int width, unsigned int height, unsigned int i_format, unsigned int p_format, const unsigned char* data) {
     glGenTextures(1, &ID);
     glBindTexture(GL_TEXTURE_2D, ID);
@@ -13,10 +17,6 @@ Texture::Texture(unsigned int width, unsigned int height, unsigned int i_format,
     glTexImage2D(GL_TEXTURE_2D, 0, i_format, width, height, 0, p_format, GL_UNSIGNED_BYTE, data);
 
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-Texture::Texture(unsigned int copy_ID): ID(copy_ID) {
-    ;
 }
 
 Texture::Texture(Texture&& other) noexcept {

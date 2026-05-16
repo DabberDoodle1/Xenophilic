@@ -15,7 +15,12 @@ enum Size {
 
 struct Text {
     Text();
+    Text(Text&& other) noexcept;
+    Text& operator=(Text&& other) noexcept;
     Text(unsigned int _ID, float _x, float _y, unsigned int _w, unsigned int _h);
+
+    Text(const Text& other) = delete;
+    Text& operator=(const Text& other) = delete;
 
     Texture      ID;
     float        x;
@@ -26,12 +31,13 @@ struct Text {
 
 class TextManager {
 public:
-    static void initialize();
-    static void clear();
+    static void  initialize();
+    static void  clear();
 
-    static void load_font(const char* key, const char* file_path);
-    static void set_font(const char* key);
-    static Text create_text(const char16_t* text, Size fs, unsigned int& dip);
+    static void  load_font(const char* key, const char* file_path);
+    static void  set_font(const char* key);
+    static Text& create_text(const char16_t* text, Size fs, unsigned int& dip);
+    static Text& create_text(const char16_t* text, Size fs, unsigned int& dip, unsigned int max_width);
 
 private:
     TextManager() = delete;
